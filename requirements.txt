@@ -1,1 +1,2 @@
 wagtail>=2.5,<2.6
+wagtail-modeltranslation==0.10.2
