@@ -1,15 +1,17 @@
-from __future__ import absolute_import, unicode_literals
-
-from django.db import models
-
+from wagtail.admin.edit_handlers import StreamFieldPanel
+from wagtail.core import blocks
 from wagtail.core.models import Page
-from wagtail.core.fields import RichTextField
+from wagtail.core.fields import StreamField
+from wagtail.images.blocks import ImageChooserBlock
 
-from wagtail.admin.edit_handlers import FieldPanel
 
 class HomePage(Page):
-    body = RichTextField(null=True, blank=True)
+    body = StreamField([
+        ('heading', blocks.CharBlock(classname="full title")),
+        ('paragraph', blocks.RichTextBlock()),
+        ('image', ImageChooserBlock()),
+    ])
 
     content_panels = Page.content_panels + [
-        FieldPanel('body'),
+        StreamFieldPanel('body'),
     ]
