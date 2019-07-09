@@ -2,6 +2,7 @@ from __future__ import absolute_import, unicode_literals
 
 from django.conf import settings
 from django.conf.urls import include, url
+from django.conf.urls.i18n import i18n_patterns
 from django.contrib import admin
 
 from search import views as search_views
@@ -14,12 +15,21 @@ urlpatterns = [
 
     url(r'^admin/', include(wagtailadmin_urls)),
     url(r'^documents/', include(wagtaildocs_urls)),
+]
+
+# http://docs.wagtail.io/en/v2.0/advanced_topics/i18n/
+urlpatterns += i18n_patterns(
+    # These URLs will have /<language_code>/ appended to the beginning
 
     url(r'^search/$', search_views.search, name='search'),
 
-    url(r'', include(wagtail_urls)),
-]
+    # Optional URL for including your own vanilla Django urls/views
+    # url(r'', include('myapp.urls')),
 
+    # For anything not caught by a more specific rule above, hand over to
+    # Wagtail's serving mechanism
+    url(r'', include(wagtail_urls)),
+)
 
 if settings.DEBUG:
     from django.conf.urls.static import static
